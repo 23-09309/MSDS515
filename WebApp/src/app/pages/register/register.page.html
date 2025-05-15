@@ -1,0 +1,37 @@
+<ng-container *ngIf="loadingSvc.loading$ | async">
+  <div class="custom-loader">
+    <img src="assets/loader.gif" alt="Loading..." />
+  </div>
+</ng-container>
+
+<ion-content class="outer-content">
+  <div class="register-wrapper">
+    <h2 class="sparchat-title">Welcome to SparChat!</h2>
+    <form (ngSubmit)="register()">
+      <ion-item>
+        <ion-input
+          [(ngModel)]="email"
+          name="email"
+          type="email"
+          required
+          [placeholder]="emailPlaceholder"
+          (focus)="onFocusEmail()"
+          (blur)="onBlurEmail()"
+        ></ion-input>
+      </ion-item>
+      <ion-note *ngIf="error" color="danger" class="ion-padding-start">
+        {{error}}
+      </ion-note>
+      <ion-button
+        expand="block"
+        type="submit"
+        class="registerBtn"
+      >
+        Register
+      </ion-button>
+      <p class="login-link">
+        Already registered? <a (click)="goToLogin()" style="cursor:pointer;">Click here to login</a>
+      </p>
+    </form>
+  </div>
+</ion-content>

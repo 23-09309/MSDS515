@@ -1,0 +1,38 @@
+<ng-container *ngIf="loadingSvc.loading$ | async">
+  <div class="custom-loader">
+    <img src="assets/loader.gif" alt="Loading..." />
+  </div>
+</ng-container>
+
+<ion-content class="outer-content">
+  <div class="register-wrapper">
+    <h2 class="sparchat-title">Welcome to SparChat!</h2>
+    <form (ngSubmit)="requestOtp()">
+      <ion-item>
+        <ion-input
+          [(ngModel)]="email"
+          name="email"
+          type="email"
+          required
+          [placeholder]="emailPlaceholder"
+          (focus)="onFocusEmail()"
+          (blur)="onBlurEmail()"
+        ></ion-input>
+      </ion-item>
+      <ion-note *ngIf="error" color="danger" class="ion-padding-start">
+        {{error}}
+      </ion-note>
+      <ion-button
+        expand="block"
+        type="submit"
+        class="registerBtn"
+      >
+        Request OTP
+      </ion-button>
+      <p class="login-link">
+        Don’t have an account yet?
+        <a (click)="goToRegister()" style="cursor:pointer;">Register here</a>
+      </p>
+    </form>
+  </div>
+</ion-content>

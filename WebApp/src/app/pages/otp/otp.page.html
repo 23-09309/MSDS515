@@ -1,0 +1,33 @@
+<ng-container *ngIf="loadingSvc.loading$ | async">
+  <div class="custom-loader">
+    <img src="assets/loader.gif" alt="Loading..." />
+  </div>
+</ng-container>
+
+<ion-content class="outer-content">
+  <div class="register-wrapper">
+    <h2 class="sparchat-title">One Time Password</h2>
+    <form (ngSubmit)="login()">
+      <ion-item>
+        <ion-input
+          [(ngModel)]="otp"
+          name="otp"
+          required
+          [placeholder]="otpPlaceholder"
+          (focus)="onFocusOTP()"
+          (blur)="onBlurOTP()"
+        ></ion-input>
+      </ion-item>
+      <ion-note *ngIf="error" color="danger" class="ion-padding-start">
+        {{error}}
+      </ion-note>
+      <ion-button
+        expand="block"
+        type="submit"
+        class="registerBtn"
+      >
+        Login
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

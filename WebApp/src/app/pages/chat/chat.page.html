@@ -1,0 +1,69 @@
+<ion-header>
+  <div class="chat-toolbar-wrapper">
+    <ion-toolbar>
+      <img src="assets/sparchat-logo.png" slot="start" class="chat-logo" />
+      <ion-title>SparChat</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="confirmLogout()">
+          <ion-icon name="log-out-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </div>
+</ion-header>
+
+<ion-content class="ion-padding messenger-content">
+  <div class="chat-wrapper">
+    <ion-list lines="none" class="chat-list">
+      <!-- ...your ngFor for messages as before... -->
+      <ion-item 
+        *ngFor="let msg of messages"
+        [ngClass]="{'user-message': msg.me, 'bot-message': !msg.me}"
+        class="bubble-parent"
+      >
+        <div class="bubble" [ngClass]="{'bot-markdown': !msg.me}">
+          <!-- User bubble: JUSTIFIED -->
+          <span *ngIf="msg.me && !msg.created">{{ msg.text }}</span>
+          <span *ngIf="msg.me && msg.created">
+            {{ msg.text }}
+            <span class="msg-timestamp">— message created on {{ msg.created }}</span>
+          </span>
+          <!-- Bot bubble: RENDER AS MARKDOWN HTML -->
+          <span *ngIf="!msg.me" [innerHTML]="parseMarkdown(msg.text)"></span>
+        </div>
+      </ion-item>
+      <ion-item *ngIf="isTyping" class="bot-message bubble-parent">
+        <div class="bubble bot-markdown typing-indicator">
+          <span class="sparchat-typing-label">SparChat is typing</span>
+          <span class="dot dot1"></span>
+          <span class="dot dot2"></span>
+          <span class="dot dot3"></span>
+        </div>
+      </ion-item>
+
+    </ion-list>
+    <form class="chat-input-area" (ngSubmit)="sendMessage()">
+      <ion-item lines="none" class="input-parent">
+        <ion-textarea
+          [(ngModel)]="message"
+          auto-grow="true"
+          name="message"
+          placeholder="Type your message..."
+          [readonly]="isTyping"
+          rows="1"
+          (keydown)="onInputKeyDown($event)"
+        ></ion-textarea>
+        <ion-button
+          [disabled]="!message.trim() || isTyping"
+          class="plane-btn"
+          type="submit"
+          color="primary"
+          shape="round"
+          size="default"
+        >
+          <ion-icon name="paper-plane" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </form>
+  </div>
+</ion-content>
